@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,6 +5,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.roborazzi)
 }
 
 kotlin {
@@ -14,7 +14,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -24,7 +24,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -42,6 +42,17 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.junit)
+                implementation(libs.roborazzi)
+                implementation(libs.roborazzi.compose)
+                implementation(libs.roborazzi.rule)
+                implementation(libs.robolectric)
+                implementation(libs.androidx.test.core)
+                implementation(libs.androidx.compose.ui.test)
+            }
         }
     }
 }
@@ -71,9 +82,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            all {
+                it.systemProperty("robolectric.graphicsMode", "NATIVE")
+            }
+        }
+    }
 }
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
-
