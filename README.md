@@ -39,7 +39,11 @@ This project uses [Roborazzi](https://github.com/takahirom/roborazzi) for screen
 ./gradlew :composeApp:recordRoborazziDebug
 ```
 
-Screenshots are saved to `composeApp/test-screenshots/` with timestamp naming (e.g., `app_preview_20260114_102221.png`).
+**Output directory:** `composeApp/src/test/snapshots/`
+
+**Naming format:** `{platform}_{width}_{height}_{name}_{timestamp}.png`
+
+Example: `android_390_844_app_preview_20260114_123229.png`
 
 **Test location:** `composeApp/src/androidUnitTest/kotlin/com/example/initd2c/PreviewSnapshotTest.kt`
 
