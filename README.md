@@ -39,9 +39,27 @@ This project uses [Roborazzi](https://github.com/takahirom/roborazzi) for screen
 ./gradlew :composeApp:recordRoborazziDebug
 ```
 
+**Clear cache and re-run (recommended for generating new snapshots):**
+
+Gradle caches test results, so subsequent runs may be skipped. Use one of these methods to force re-generation:
+
+```shell
+# Option 1: Force re-run all tasks
+./gradlew :composeApp:recordRoborazziDebug --rerun-tasks
+
+# Option 2: Clean and run
+./gradlew clean :composeApp:recordRoborazziDebug
+
+# Option 3: Delete test results cache only
+rm -rf composeApp/build/test-results
+./gradlew :composeApp:recordRoborazziDebug
+```
+
 **Output directory:** `composeApp/src/test/snapshots/`
 
 **Naming format:** `{platform}_{width}_{height}_{name}_{timestamp}.png`
+
+Each screenshot includes a timestamp (`yyyyMMdd_HHmmss`), allowing multiple snapshots from different runs to be stored and compared. This is useful for tracking UI changes over time.
 
 Example: `android_390_844_app_preview_20260114_123229.png`
 
